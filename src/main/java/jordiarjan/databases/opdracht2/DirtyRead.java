@@ -1,8 +1,5 @@
 package jordiarjan.databases.opdracht2;
 
-/**
- * Created by Arjan on 20/05/2015.
- */
 public class DirtyRead implements Simulation {
 
     public void simulate() {
@@ -31,7 +28,7 @@ public class DirtyRead implements Simulation {
                     try {
                         int instock = product.getInStock(id);
                         System.out.println(instock);
-                        Thread.sleep(200);
+                        Thread.sleep(500);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

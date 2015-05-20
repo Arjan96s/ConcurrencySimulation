@@ -16,7 +16,7 @@ public class ProductRepository {
     }
 
     public int getInStock(int id) throws Exception {
-        PreparedStatement getInStock;
+        PreparedStatement getInStock = null;
         getInStock = connection.prepareStatement("SELECT instock FROM products WHERE id=?");
         getInStock.setInt(1, id);
         if (getInStock.execute()) {
