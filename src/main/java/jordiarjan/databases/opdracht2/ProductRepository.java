@@ -1,23 +1,20 @@
 package jordiarjan.databases.opdracht2;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ProductRepository {
-    private Connection connection;
 
-    public ProductRepository() {
-        try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:33060/opdracht2", "homestead", "secret");
-            this.connection.setAutoCommit(false);
-            this.connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private DBManager dbManager;
+
+    public ProductRepository(DBManager dbManager) {
+        this.dbManager = dbManager;
     }
 
     public int getInStock(int id) throws Exception {
         PreparedStatement getInStock = null;
-        getInStock = connection.prepareStatement("SELECT instock FROM products WHERE id=?");
+        getInStock = dbManager.getConnection().prepareStatement("SELECT instock FROM product WHERE id=?");
         getInStock.setInt(1, id);
         if (getInStock.execute()) {
             ResultSet result = getInStock.getResultSet();
@@ -28,14 +25,22 @@ public class ProductRepository {
     }
 
     public void updateInStock(int id, int instock) throws SQLException {
-        PreparedStatement update = connection.prepareStatement("UPDATE products SET instock=?");
+        PreparedStatement update = dbManager.getConnection().prepareStatement("UPDATE product SET instock=?");
         update.setInt(1, instock);
         update.execute();
     }
 
     public void rollback() {
         try {
-            connection.rollback();
+            dbManager.getConnection().rollback();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void commit() {
+        try {
+            dbManager.getConnection().commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
