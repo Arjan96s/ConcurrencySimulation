@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS `opdracht2`
+CREATE DATABASE IF NOT EXISTS `opdracht2`;
 USE `opdracht2`;
 
 CREATE TABLE IF NOT EXISTS `product` (
@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `name` varchar(255) NOT NULL,
   `instock` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `stock` (
   `product_id` int(10) unsigned NOT NULL,
@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS `stock` (
   `mutation_date` datetime NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY (`product_id`,`mutation_amount`,`mutation_date`),
-  CONSTRAINT `product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)opdracht2
+) ENGINE=InnoDB;
