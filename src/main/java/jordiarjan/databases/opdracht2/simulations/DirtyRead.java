@@ -3,7 +3,9 @@ package jordiarjan.databases.opdracht2.simulations;
 import jordiarjan.databases.opdracht2.DBManager;
 import jordiarjan.databases.opdracht2.ProductRepository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DirtyRead implements Simulation {
 
@@ -35,10 +37,26 @@ public class DirtyRead implements Simulation {
                     while (true) {
                         try {
                             int instock = product.getInStock(id);
+                            Thread.sleep((int) (Math.random() * 1000));
+                            int instock2 = product.getInStock(id);
+                            if (instock != instock2)
+                                System.out.println("Dirtyread occured!");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+            new Thread(new Runnable() {
+                public void run() {
+                    DBManager dbManager = new DBManager();
+                    ProductRepository product = new ProductRepository(dbManager);
+                    while (true) {
+                        try {
+                            int instock = product.getInStock(id);
                             int mutation = (int) (Math.random() * 10);
                             product.updateInStock(id, instock + mutation);
-                            updateRealStock(mutation);
-                            product.commit();
+                            product.rollback();
                             Thread.sleep((int) (Math.random() * 1000));
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -47,25 +65,5 @@ public class DirtyRead implements Simulation {
                 }
             }).start();
         }
-    }
-
-    public int getActual() throws Exception {
-        PreparedStatement statement = dbManager.getConnection().prepareStatement("SELECT instock FROM product WHERE id=?");
-        int id = 1;
-        statement.setInt(1, id);
-        if (statement.execute()) {
-            ResultSet result = statement.getResultSet();
-            result.first();
-            return result.getInt("instock");
-        }
-        throw new Exception("Product not found");
-    }
-
-    public int getReal() {
-        return this.stock;
-    }
-
-    public synchronized void updateRealStock(int mutation) {
-        this.stock += mutation;
     }
 }

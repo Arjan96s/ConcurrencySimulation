@@ -18,20 +18,6 @@ public class StockChange {
         final DirtyRead dirtyRead = new DirtyRead();
         dirtyRead.setup(new DBManager());
         dirtyRead.simulate(10);
-        new Thread(new Runnable() {
-            public void run() {
-                while (true) {
-                    try {
-                        int real = dirtyRead.getReal();
-                        int actual = dirtyRead.getActual();
-                        System.out.println("Actual: " + actual + " Real: " + real);
-                        Thread.sleep(2000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
     }
 
     private static void phantomRead() {
