@@ -24,12 +24,12 @@ FOR EACH ROW
   BEGIN
     SET @instock = 0;
     SELECT instock INTO @instock FROM product WHERE id = NEW.product_id;
-    IF @instock + NEW.mutation_amount <= 100 THEN
+    IF (@instock + NEW.mutation_amount) <= 100 THEN
       SET @newInstock = @instock + NEW.mutation_amount;
       UPDATE product SET instock=@newInstock WHERE id = NEW.product_id;
     ELSE
+      SET NEW.mutation_amount = 100 - @instock;
       UPDATE product SET instock=100 WHERE id = NEW.product_id;
-		SET NEW.mutation_amount = 100 - @instock;
     END IF;
   END $$
 DELIMITER ;
