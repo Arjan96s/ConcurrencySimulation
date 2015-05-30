@@ -29,7 +29,7 @@ FOR EACH ROW
       UPDATE product SET instock=@newInstock WHERE id = NEW.product_id;
     ELSE
       UPDATE product SET instock=100 WHERE id = NEW.product_id;
-		SET NEW.mutation_amount = 100 - @instock;
+      SET NEW.mutation_amount = 100 - @instock;
     END IF;
   END $$
 DELIMITER ;
