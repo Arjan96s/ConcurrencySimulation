@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS `opdracht2-arjan`;
-USE `opdracht2-arjan`;
+CREATE DATABASE IF NOT EXISTS `opdracht2`;
+USE `opdracht2`;
 
 CREATE TABLE IF NOT EXISTS `product` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
