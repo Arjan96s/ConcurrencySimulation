@@ -25,8 +25,9 @@ public class ProductRepository {
     }
 
     public void updateInStock(int id, int instock) throws SQLException {
-        PreparedStatement update = dbManager.getConnection().prepareStatement("UPDATE product SET instock=?");
+        PreparedStatement update = dbManager.getConnection().prepareStatement("UPDATE product SET instock=? WHERE id=?");
         update.setInt(1, instock);
+        update.setInt(2, id);
         update.execute();
     }
 

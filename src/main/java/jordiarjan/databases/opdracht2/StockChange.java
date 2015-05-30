@@ -1,5 +1,6 @@
 package jordiarjan.databases.opdracht2;
 
+import jordiarjan.databases.opdracht2.simulations.DeadLock;
 import jordiarjan.databases.opdracht2.simulations.DirtyRead;
 import jordiarjan.databases.opdracht2.simulations.PhantomRead;
 
@@ -12,6 +13,8 @@ public class StockChange {
             StockChange.phantomRead();
         else if (args[0].equals("dirtyread"))
             StockChange.dirtyRead();
+        else if (args[0].equals("deadlock"))
+            StockChange.deadlock();
     }
 
     private static void dirtyRead() {
@@ -24,5 +27,11 @@ public class StockChange {
         final PhantomRead phantomRead = new PhantomRead();
         phantomRead.setup(new DBManager());
         phantomRead.simulate(10);
+    }
+
+    private static void deadlock() {
+        final DeadLock deadLock = new DeadLock();
+        deadLock.setup(new DBManager());
+        deadLock.simulate(10);
     }
 }
