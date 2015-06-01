@@ -6,5 +6,6 @@ When there are at delivery more than 100 products the remaining products are for
 
 Concurrency problems included:
 * Dirty read
+* Non repeatable read
 * Phantom read
 * Dead lock

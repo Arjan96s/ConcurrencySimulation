@@ -2,6 +2,7 @@ package jordiarjan.databases.opdracht2;
 
 import jordiarjan.databases.opdracht2.simulations.DeadLock;
 import jordiarjan.databases.opdracht2.simulations.DirtyRead;
+import jordiarjan.databases.opdracht2.simulations.NonRepeatableRead;
 import jordiarjan.databases.opdracht2.simulations.PhantomRead;
 
 public class StockChange {
@@ -15,6 +16,15 @@ public class StockChange {
             StockChange.dirtyRead();
         else if (args[0].equals("deadlock"))
             StockChange.deadlock();
+        else if (args[0].equals("nonrepeatableread"))
+            StockChange.nonrepeatableRead();
+    }
+
+    private static void nonrepeatableRead()
+    {
+        final NonRepeatableRead nonRepeatableRead = new NonRepeatableRead();
+        nonRepeatableRead.setup(new DBManager());
+        nonRepeatableRead.simulate(10);
     }
 
     private static void dirtyRead() {
